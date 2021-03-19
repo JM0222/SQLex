@@ -48,3 +48,5 @@ where object_type='VIEW';
 -- 실제 테이터는 view가 아닌 기반테이블에 위치
 drop view book_detail;
 select * from user_views;
+
+---- 
