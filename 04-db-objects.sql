@@ -50,3 +50,4 @@ drop view book_detail;
 select * from user_views;
 
 ---- 
+--
