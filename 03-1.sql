@@ -57,3 +57,79 @@ show user;
 grant select on hr.employees to c##jm;
 
 select * from hr.employees;
+
+-------
+--DDL
+-------
+show user;
+select * from test;
+desc test;
+-- 테이블 삭제
+drop table test;
+select * from tab;
+-- Oracle 휴지통 비우기
+purge recyclebin;
+
+-- 테이블 생성
+create table book (-- 컬럼 상세 명세
+    book_id number(5),
+    title varchar2(50), -- 50 가변
+    author varchar2(10),
+    pub_date date default sysdate --기본값은 현재시간
+);
+desc book;
+
+-- 서브쿼리를 활용한 테이블 생성
+select * from hr.employees where job_id like 'IT_%';
+create table it_emps as (
+select * from hr.employees where job_id like 'IT_%'
+);
+
+select * from tab;
+
+create table author (
+    author_id number(10),
+    author_name varchar2(100) not null, -- 제약조건 Not null
+    author_desc varchar2(500),
+    primary key (author_id)
+);
+desc author;
+desc book;
+
+-- book 테이블 author 컬럼 삭제
+alter table book drop(author);
+-- 테이블 추가
+alter table book add(author_id number(10));
+alter table book modify(book_id number(10));
+desc book;
+
+-- 제약조건  추가  ADD CONSTRAINT
+-- book 테이블의 book_id를 PRIMARY KEY 에 부여
+alter table book 
+add constraint pk_book_id primary key(book_id);
+desc book;
+
+-- FOREIGN KEY 추가
+alter table book
+add constraint fk_author_id foreign key (author_id)
+references author(author_id);
+
+-- comment 추가
+comment on table book is 'book information';
+comment on table author is 'author information';
+-- comment 확인
+select * from user_tab_comments;
+
+-- 제약조건도 함께 삭제
+drop table IT_EMPS cascade constraint;
+
+-- Data Dictionary 모든정보를 담아두고있다
+-- 계정별 USER_ :일반사용자, ALL_:전체사용자, DBA_:관리자전용
+select count(*) from dictionary;
+
+-- 사용자 DB객체
+select * from user_objects;
+
+-- 제약조건 확인 dictionary USER_CONSTRAINTS
+select * from user_constraints;
+select * from user_cons_columns;
